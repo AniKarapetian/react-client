@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import firebase from "firebase/app";
+import { firestoreConnect } from "react-redux-firebase";
+
 import "firebase/auth";
 
 export class SignUp extends Component {
@@ -9,6 +11,7 @@ export class SignUp extends Component {
 		password: "",
 		firstName: "",
 		lastName: "",
+		balance: 0,
 	};
 	handlerSubmit = (event) => {
 		event.preventDefault();
@@ -16,6 +19,15 @@ export class SignUp extends Component {
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(this.state.email, this.state.password)
+			.then(() => {
+				const client = {
+					firstName: this.state.firstName,
+					lastName: this.state.lastName,
+					balance: 0,
+				};
+				const { firestore } = this.props;
+				firestore.add({ collection: "clients" }, client);
+			})
 			.catch(function (error) {
 				let errorCode = error.code;
 				let errorMessage = error.message;
@@ -93,4 +105,4 @@ export class SignUp extends Component {
 	}
 }
 
-export default SignUp;
+export default firestoreConnect()(SignUp);
