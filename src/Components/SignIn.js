@@ -1,16 +1,35 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
+import firebase from "firebase/app";
+import "firebase/auth";
+import history from "../helpers/history";
 
 export class SignIn extends Component {
 	state = {
 		email: "",
-		password: ""
+		password: "",
 	};
-	handlerSubmit = event => {
+	handlerSubmit = (event) => {
 		event.preventDefault();
 		console.log(this.state);
+		firebase
+			.auth()
+			.signInWithEmailAndPassword(this.state.email, this.state.password)
+			.then((response) => {
+				console.log(response);
+				history.push("/home");
+			})
+			.catch(function (error) {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				console.log(errorCode, errorMessage);
+			});
+	};
+	handleChange = (event) => {
+		this.setState({ [event.target.name]: event.target.value });
 	};
 	render() {
+		// console.log(this.props);
 		return (
 			<div className="sign-in-div">
 				<Form onSubmit={this.handlerSubmit}>
@@ -18,9 +37,8 @@ export class SignIn extends Component {
 						<Form.Label>Email address</Form.Label>
 						<Form.Control
 							type="email"
-							onChange={e => {
-								this.setState({ email: e.target.value });
-							}}
+							name="email"
+							onChange={this.handleChange}
 							placeholder="Enter email"
 							required
 						/>
@@ -33,16 +51,13 @@ export class SignIn extends Component {
 						<Form.Label>Password</Form.Label>
 						<Form.Control
 							type="password"
-							onChange={e => {
-								this.setState({ password: e.target.value });
-							}}
+							onChange={this.handleChange}
+							name="password"
 							placeholder="Password"
 							required
 						/>
 					</Form.Group>
-					<Form.Group controlId="formBasicCheckbox">
-						<Form.Check type="checkbox" label="Check me out" />
-					</Form.Group>
+
 					<Button variant="dark" type="submit">
 						Submit
 					</Button>

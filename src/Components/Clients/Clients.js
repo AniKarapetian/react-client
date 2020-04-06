@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import Table from "react-bootstrap/Table";
+import { Table } from "react-bootstrap";
 import Loader from "../Loader";
 
 export class Clients extends Component {

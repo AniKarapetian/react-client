@@ -1,15 +1,34 @@
 import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
+import firebase from "firebase/app";
+import "firebase/auth";
+
 export class SignUp extends Component {
 	state = {
 		email: "",
 		password: "",
 		firstName: "",
-		lastName: ""
+		lastName: "",
 	};
-	handlerSubmit = event => {
+	handlerSubmit = (event) => {
 		event.preventDefault();
 		console.log(this.state);
+		firebase
+			.auth()
+			.createUserWithEmailAndPassword(this.state.email, this.state.password)
+			.catch(function (error) {
+				let errorCode = error.code;
+				let errorMessage = error.message;
+				if (errorCode === "auth/wrong-password") {
+					alert("Wrong password.");
+				} else {
+					alert(errorMessage);
+				}
+				console.log(error);
+			});
+	};
+	handleChange = (event) => {
+		this.setState({ [event.target.name]: event.target.value });
 	};
 	render() {
 		return (
@@ -17,60 +36,52 @@ export class SignUp extends Component {
 				<Form onSubmit={this.handlerSubmit}>
 					<Form.Group as={Col}>
 						<Form.Control
-							onChange={e => {
-								this.setState({ firstName: e.target.value });
-							}}
+							onChange={this.handleChange}
 							type="text"
 							placeholder="First Name"
 							required
+							name="firstName"
 						/>
 					</Form.Group>
 
 					<Form.Group as={Col}>
 						<Form.Control
-							onChange={e => {
-								this.setState({ lastName: e.target.value });
-							}}
+							onChange={this.handleChange}
 							type="text"
 							placeholder="Last Name"
 							required
+							name="lastName"
 						/>
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridEmail">
 						<Form.Control
-							onChange={e => {
-								this.setState({ email: e.target.value });
-							}}
+							onChange={this.handleChange}
 							type="email"
 							placeholder="Enter email"
 							required
+							name="email"
 						/>
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridPassword">
 						<Form.Control
-							onChange={e => {
-								this.setState({ password: e.target.value });
-							}}
+							onChange={this.handleChange}
 							type="password"
 							placeholder="Password"
 							required
+							name="password"
 						/>
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridPassword">
 						<Form.Control
-							onChange={e => {
-								console.log("password", e.target.value);
-							}}
+							onChange={this.handleChange}
 							type="password"
 							placeholder="Confirm Password"
 							required
+							name="confirmPassword"
 						/>
-					</Form.Group>
-					<Form.Group id="formGridCheckbox">
-						<Form.Check type="checkbox" label="Check me out" />
 					</Form.Group>
 
 					<Button variant="dark" type="submit">
