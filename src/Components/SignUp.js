@@ -2,20 +2,24 @@ import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import firebase from "firebase/app";
 import { firestoreConnect } from "react-redux-firebase";
-
+import history from "../helpers/history";
 import "firebase/auth";
 
 export class SignUp extends Component {
 	state = {
 		email: "",
 		password: "",
+		confirmPassword: "",
 		firstName: "",
 		lastName: "",
 		balance: 0,
 	};
 	handlerSubmit = (event) => {
 		event.preventDefault();
-		console.log(this.state);
+		const { password, confirmPassword } = this.state;
+		if (password !== confirmPassword) {
+			console.log();
+		}
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -27,6 +31,7 @@ export class SignUp extends Component {
 				};
 				const { firestore } = this.props;
 				firestore.add({ collection: "clients" }, client);
+				history.push("/home");
 			})
 			.catch(function (error) {
 				let errorCode = error.code;
@@ -76,7 +81,7 @@ export class SignUp extends Component {
 						/>
 					</Form.Group>
 
-					<Form.Group as={Col} controlId="formGridPassword">
+					<Form.Group as={Col} controlId="formGridPassword1">
 						<Form.Control
 							onChange={this.handleChange}
 							type="password"
@@ -86,7 +91,7 @@ export class SignUp extends Component {
 						/>
 					</Form.Group>
 
-					<Form.Group as={Col} controlId="formGridPassword">
+					<Form.Group as={Col} controlId="formGridPassword2">
 						<Form.Control
 							onChange={this.handleChange}
 							type="password"

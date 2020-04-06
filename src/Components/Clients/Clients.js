@@ -4,11 +4,22 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Table } from "react-bootstrap";
 import Loader from "../Loader";
+import deleteIcon from "../../Images/delete_icon.png";
+import editIcon from "../../Images/edit_icon.png";
+import infoIcon from "../../Images/info_icon.png";
 
 export class Clients extends Component {
+	getInfo = ()=>{
+
+	}
+	editInfo = () =>{
+
+	}
+	deleteClient = ()=>{
+		
+	}
 	render() {
 		const clients = this.props.clients;
-		// console.log(this.props);
 		return (
 			<>
 				<h1>Users</h1>
@@ -21,6 +32,7 @@ export class Clients extends Component {
 								<th>First Name</th>
 								<th>Last Name</th>
 								<th>Balance</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -29,6 +41,11 @@ export class Clients extends Component {
 									<td>{client.firstName}</td>
 									<td>{client.lastName}</td>
 									<td>{client.balance}</td>
+									<td>
+										<img onClick = {this.getInfo} className="icon" src={infoIcon} alt="info" />
+										<img onClick = {this.editInfo} className="icon" src={editIcon} alt="edit" />
+										<img onClick = {this.deleteClient} className="icon" src={deleteIcon} alt="delete" />
+									</td>
 								</tr>
 							))}
 						</tbody>

@@ -13,6 +13,7 @@ class Menu extends Component {
 						<Nav.Link href="/add-user">Add User</Nav.Link>
 						<Nav.Link href="/sign-in">Sign In</Nav.Link>
 						<Nav.Link href="/sign-up">Sign Up</Nav.Link>
+						<Nav.Link href="/log-out">Log Out</Nav.Link>
 					</Nav>
 				</Navbar>
 			</div>
