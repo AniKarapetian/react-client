@@ -18,7 +18,6 @@ export class Clients extends Component {
 	};
 	editInfo = (user) => {
 		const { firestore } = this.props;
-		console.log(user);
 		firestore.collection("clients").doc(user.id).update(user);
 		this.cancelEdit();
 	};

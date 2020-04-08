@@ -58,3 +58,6 @@ p {
 .password-error{
 	color: red;
 }
+button{
+	margin: 5px;
+}

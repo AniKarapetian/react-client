@@ -13,7 +13,9 @@ export class SignUp extends Component {
 		firstName: "",
 		lastName: "",
 		balance: 0,
+		errors: {},
 	};
+
 	handlerSubmit = (event) => {
 		event.preventDefault();
 		const { password, confirmPassword } = this.state;
@@ -48,9 +50,46 @@ export class SignUp extends Component {
 			});
 	};
 	handleChange = (event) => {
-		this.setState({ [event.target.name]: event.target.value });
+		event.preventDefault();
+		const { name, value } = event.target;
+		this.setState({ [name]: value });
+		const errors = this.state.errors;
+		const validEmailRegex = RegExp(
+			/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+		);
+		switch (name) {
+			case "firstName":
+				errors.firstName =
+					value.length < 2 ? "First Name must be 2 characters long!" : "";
+				break;
+			case "lastName":
+				errors.lastName =
+					value.length < 2 ? "Last Name must be 2 characters long!" : "";
+				break;
+			case "email":
+				errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+				break;
+			case "password":
+				errors.password =
+					value.length < 7 ? "Password must be 7 characters long!" : "";
+				break;
+			case "confirmPassword":
+				errors.confirmPassword =
+					value.length < 7 ? "Password must be 7 characters long!" : "";
+				break;
+			default:
+				break;
+		}
+
+		this.setState({ errors, [name]: value });
+	};
+
+	signUpWithGoogle = () => {
+		const provider = new firebase.auth.GoogleAuthProvider();
+		provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
 	};
 	render() {
+		const { errors } = this.state;
 		return (
 			<div className="sign-up-div">
 				<Form onSubmit={this.handlerSubmit}>
@@ -62,6 +101,9 @@ export class SignUp extends Component {
 							required
 							name="firstName"
 						/>
+						{!!errors.firstName && (
+							<span className="error">{errors.firstName}</span>
+						)}
 					</Form.Group>
 
 					<Form.Group as={Col}>
@@ -72,6 +114,9 @@ export class SignUp extends Component {
 							required
 							name="lastName"
 						/>
+						{!!errors.lastName && (
+							<span className="error">{errors.lastName}</span>
+						)}
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridEmail">
@@ -82,6 +127,7 @@ export class SignUp extends Component {
 							required
 							name="email"
 						/>
+						{!!errors.email && <span className="error">{errors.email}</span>}
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridPassword1">
@@ -92,8 +138,10 @@ export class SignUp extends Component {
 							required
 							name="password"
 						/>
+						{!!errors.password && (
+							<span className="error">{errors.password}</span>
+						)}
 					</Form.Group>
-
 					<Form.Group as={Col} controlId="formGridPassword2">
 						<Form.Control
 							onChange={this.handleChange}
@@ -102,10 +150,17 @@ export class SignUp extends Component {
 							required
 							name="confirmPassword"
 						/>
+						{!!errors.confirmPassword && (
+							<span className="error">{errors.confirmPassword}</span>
+						)}
 					</Form.Group>
 
 					<Button variant="dark" type="submit">
 						Submit
+					</Button>
+					<br />
+					<Button variant="info" onClick={this.signUpWithGoogle}>
+						Sign In with Google account
 					</Button>
 				</Form>
 				{this.state.showError && (

@@ -8,6 +8,7 @@ export class SignIn extends Component {
 	state = {
 		email: "",
 		password: "",
+		errors: {},
 	};
 	handlerSubmit = (event) => {
 		event.preventDefault();
@@ -26,10 +27,29 @@ export class SignIn extends Component {
 			});
 	};
 	handleChange = (event) => {
-		this.setState({ [event.target.name]: event.target.value });
+		const { name, value } = event.target;
+		this.setState({ [name]: value });
+		const errors = this.state.errors;
+		const validEmailRegex = RegExp(
+			/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+		);
+		switch (name) {
+			case "email":
+				errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+				break;
+			case "password":
+				errors.password =
+					value.length < 7 ? "Password must be 7 characters long!" : "";
+				break;
+			default:
+				break;
+		}
+
+		this.setState({ errors, [name]: value });
 	};
 	render() {
-		// console.log(this.props);
+		const { errors } = this.state;
+
 		return (
 			<div className="sign-in-div">
 				<Form onSubmit={this.handlerSubmit}>
@@ -42,6 +62,7 @@ export class SignIn extends Component {
 							placeholder="Enter email"
 							required
 						/>
+						{!!errors.email && <span className="error">{errors.email}</span>}
 						<Form.Text className="text-muted">
 							We'll never share your email with anyone else.
 						</Form.Text>
@@ -56,6 +77,9 @@ export class SignIn extends Component {
 							placeholder="Password"
 							required
 						/>
+						{!!errors.password && (
+							<span className="error">{errors.password}</span>
+						)}
 					</Form.Group>
 
 					<Button variant="dark" type="submit">
