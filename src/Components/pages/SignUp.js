@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import firebase from "firebase/app";
 import { firestoreConnect } from "react-redux-firebase";
-import history from "../helpers/history";
+import history from "../../helpers/history";
 import "firebase/auth";
 
 export class SignUp extends Component {
@@ -18,7 +18,9 @@ export class SignUp extends Component {
 		event.preventDefault();
 		const { password, confirmPassword } = this.state;
 		if (password !== confirmPassword) {
-			console.log();
+			console.log(false);
+			this.setState({showError: true});
+			return;
 		}
 		firebase
 			.auth()
@@ -28,6 +30,7 @@ export class SignUp extends Component {
 					firstName: this.state.firstName,
 					lastName: this.state.lastName,
 					balance: 0,
+					email:this.state.email
 				};
 				const { firestore } = this.props;
 				firestore.add({ collection: "clients" }, client);
@@ -105,6 +108,9 @@ export class SignUp extends Component {
 						Submit
 					</Button>
 				</Form>
+				{this.state.showError && 
+			<p className = 'password-error'>Passwords do not match</p>
+				}
 			</div>
 		);
 	}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Clients from "./clients/Clients";
+import Clients from "../clients/Clients";
 export class Home extends Component {
 	render() {
 		// console.log(this.props);

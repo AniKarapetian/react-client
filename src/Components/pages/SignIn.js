@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import firebase from "firebase/app";
 import "firebase/auth";
-import history from "../helpers/history";
+import history from "../../helpers/history";
 
 export class SignIn extends Component {
 	state = {
@@ -68,3 +68,12 @@ export class SignIn extends Component {
 }
 
 export default SignIn;
+
+/*// Allow read/write access on all documents to any user signed in to the application
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth.uid != null;
+    }
+  }
+} */

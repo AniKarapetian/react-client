@@ -7,13 +7,13 @@ import { Router, Switch, Route } from "react-router-dom";
 import history from "./helpers/history";
 
 import Menu from "./Components/Menu";
-import Home from "./Components/Home";
+import Home from "./Components/pages/Home";
 import Footer from "./Components/Footer";
-import SignIn from "./Components/SignIn";
-import SignUp from "./Components/SignUp";
-import AddUser from "./Components/AddUser";
-import NotFoundPage from "./Components/NotFoundPage";
-import LogOut from "./Components/LogOut";
+import SignIn from "./Components/pages/SignIn";
+import SignUp from "./Components/pages/SignUp";
+import AddUser from "./Components/pages/AddUser";
+import NotFoundPage from "./Components/pages/NotFoundPage";
+import LogOut from "./Components/pages/LogOut";
 
 class App extends Component {
 	render() {

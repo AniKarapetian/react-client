@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import pageNotFound from "../Images/pageNotFound.jpg";
+import pageNotFound from "../../Images/pageNotFound.jpg";
 
 class NotFoundPage extends Component {
 	render() {
