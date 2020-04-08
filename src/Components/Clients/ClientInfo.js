@@ -8,7 +8,7 @@ function ClientInfo(props) {
 		<>
 			<Modal show={true} onHide={props.onClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Client Info</Modal.Title>
+					<Modal.Title>User Info</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Card style={{ width: "18rem", margin: "auto" }}>

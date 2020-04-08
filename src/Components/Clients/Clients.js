@@ -9,22 +9,31 @@ import editIcon from "../../Images/edit_icon.png";
 import infoIcon from "../../Images/info_icon.png";
 import ClientInfo from "./ClientInfo";
 import DeleteClient from "./DeleteClient";
+import EditClientInfo from "./EditClientInfo";
 
 export class Clients extends Component {
 	state = {};
 	closeInfo = () => {
 		this.setState({ client: null });
 	};
-	editInfo = () => {};
+	editInfo = (user) => {
+		const { firestore } = this.props;
+		console.log(user);
+		firestore.collection("clients").doc(user.id).update(user);
+		this.cancelEdit();
+	};
+	cancelEdit = () => {
+		this.setState({ editUser: null });
+	};
 	cancelDelete = () => {
-		this.setState({ deleteUser: false });
+		this.setState({ deleteUserId: null });
 	};
 	deleteClient = () => {
-		const { user } = this.state;
+		const { deleteUserId } = this.state;
 		const { firestore } = this.props;
 		firestore
 			.collection("clients")
-			.doc(user.id)
+			.doc(deleteUserId)
 			.delete()
 			.then(function () {
 				console.log("Document successfully deleted!");
@@ -34,6 +43,23 @@ export class Clients extends Component {
 			});
 		this.cancelDelete();
 	};
+
+	handleClick = (action, data) => () => {
+		switch (action) {
+			case "setClientInfo":
+				this.setState({ client: data });
+				break;
+			case "setEditUser":
+				this.setState({ editUser: data });
+				break;
+			case "setDeleteUserId":
+				this.setState({ deleteUserId: data });
+				break;
+			default:
+				return;
+		}
+	};
+
 	render() {
 		const clients = this.props.clients;
 		return (
@@ -59,23 +85,19 @@ export class Clients extends Component {
 									<td>{client.balance}</td>
 									<td>
 										<img
-											onClick={() => {
-												this.setState({ client });
-											}}
+											onClick={this.handleClick("setClientInfo", client)}
 											className="icon"
 											src={infoIcon}
 											alt="info"
 										/>
 										<img
-											onClick={this.editInfo}
+											onClick={this.handleClick("setEditUser", client)}
 											className="icon"
 											src={editIcon}
 											alt="edit"
 										/>
 										<img
-											onClick={() => {
-												this.setState({ deleteUser: true, user: client });
-											}}
+											onClick={this.handleClick("setDeleteUserId", client.id)}
 											className="icon"
 											src={deleteIcon}
 											alt="delete"
@@ -86,14 +108,20 @@ export class Clients extends Component {
 						</tbody>
 					</Table>
 				)}
-				{this.state.client && (
+				{!!this.state.client && (
 					<ClientInfo client={this.state.client} onClose={this.closeInfo} />
 				)}
-				{this.state.deleteUser && (
+				{!!this.state.deleteUserId && (
 					<DeleteClient
-						client={this.state.user}
 						onClose={this.cancelDelete}
 						onDelete={this.deleteClient}
+					/>
+				)}
+				{!!this.state.editUser && (
+					<EditClientInfo
+						user={this.state.editUser}
+						onClose={this.cancelEdit}
+						onEdit={this.editInfo}
 					/>
 				)}
 			</>

@@ -19,7 +19,7 @@ export class SignUp extends Component {
 		const { password, confirmPassword } = this.state;
 		if (password !== confirmPassword) {
 			console.log(false);
-			this.setState({showError: true});
+			this.setState({ showError: true });
 			return;
 		}
 		firebase
@@ -30,7 +30,7 @@ export class SignUp extends Component {
 					firstName: this.state.firstName,
 					lastName: this.state.lastName,
 					balance: 0,
-					email:this.state.email
+					email: this.state.email,
 				};
 				const { firestore } = this.props;
 				firestore.add({ collection: "clients" }, client);
@@ -108,9 +108,9 @@ export class SignUp extends Component {
 						Submit
 					</Button>
 				</Form>
-				{this.state.showError && 
-			<p className = 'password-error'>Passwords do not match</p>
-				}
+				{this.state.showError && (
+					<p className="password-error">Passwords do not match</p>
+				)}
 			</div>
 		);
 	}

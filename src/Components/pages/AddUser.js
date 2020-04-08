@@ -16,7 +16,9 @@ export class AddUser extends Component {
 		const { firestore } = this.props;
 		firestore.add({ collection: "clients" }, client);
 		history.push("/home");
-
+	};
+	handleChange = (event) => {
+		this.setState({ [event.target.name]: event.target.value });
 	};
 	render() {
 		return (
@@ -24,31 +26,27 @@ export class AddUser extends Component {
 				<Form onSubmit={this.handlerSubmit}>
 					<Form.Group as={Col}>
 						<Form.Control
-							onChange={(e) => {
-								this.setState({ firstName: e.target.value });
-							}}
+							onChange={this.handleChange}
 							type="text"
 							placeholder="First Name"
 							required
+							name="firstName"
 						/>
 					</Form.Group>
 
 					<Form.Group as={Col}>
 						<Form.Control
-							onChange={(e) => {
-								this.setState({ lastName: e.target.value });
-							}}
+							onChange={this.handleChange}
 							type="text"
 							placeholder="Last Name"
 							required
+							name="lastName"
 						/>
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridEmail">
 						<Form.Control
-							onChange={(e) => {
-								this.setState({ email: e.target.value });
-							}}
+							onChange={this.handleChange}
 							type="email"
 							placeholder="Enter email"
 							required
@@ -58,12 +56,11 @@ export class AddUser extends Component {
 
 					<Form.Group as={Col}>
 						<Form.Control
-							onChange={(e) => {
-								this.setState({ balance: parseInt(e.target.value) });
-							}}
+							onChange={this.handleChange}
 							type="text"
 							placeholder="Balance"
 							required
+							name="balance"
 						/>
 					</Form.Group>
 					<Button variant="dark" type="submit">
