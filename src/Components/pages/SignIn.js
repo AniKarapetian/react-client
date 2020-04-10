@@ -3,6 +3,9 @@ import { Form, Button } from "react-bootstrap";
 import firebase from "firebase/app";
 import "firebase/auth";
 import history from "../../helpers/history";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { connect } from "react-redux";
 
 export class SignIn extends Component {
 	state = {
@@ -12,17 +15,17 @@ export class SignIn extends Component {
 	};
 	handlerSubmit = (event) => {
 		event.preventDefault();
-		console.log(this.state);
 		firebase
 			.auth()
 			.signInWithEmailAndPassword(this.state.email, this.state.password)
 			.then((response) => {
-				console.log(response);
+				this.props.dispatchSignin("SIGNIN_SUCCESS", response);
 				history.push("/home");
 			})
-			.catch(function (error) {
-				var errorCode = error.code;
-				var errorMessage = error.message;
+			.catch((error) => {
+				let errorCode = error.code;
+				let errorMessage = error.message;
+				this.props.dispatchSignin("SIGNIN_FAILURE", errorMessage);
 				console.log(errorCode, errorMessage);
 			});
 	};
@@ -49,7 +52,7 @@ export class SignIn extends Component {
 	};
 	render() {
 		const { errors } = this.state;
-
+		console.log("isSignedIn", this.props.isSignedIn);
 		return (
 			<div className="sign-in-div">
 				<Form onSubmit={this.handlerSubmit}>
@@ -83,7 +86,7 @@ export class SignIn extends Component {
 					</Form.Group>
 
 					<Button variant="dark" type="submit">
-						Submit
+						Sign In
 					</Button>
 				</Form>
 			</div>
@@ -91,7 +94,7 @@ export class SignIn extends Component {
 	}
 }
 
-export default SignIn;
+// export default firestoreConnect()(SignIn);
 
 /*// Allow read/write access on all documents to any user signed in to the application
 service cloud.firestore {
@@ -101,3 +104,17 @@ service cloud.firestore {
     }
   }
 } */
+
+export default compose(
+	firestoreConnect(),
+	connect(
+		(state) => ({
+			isSignedIn: state.mainstore.isSignedIn,
+		}),
+		{
+			dispatchSignin: (type, data) => (dispatch) => {
+				dispatch({ type, data });
+			},
+		}
+	)
+)(SignIn);

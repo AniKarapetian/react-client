@@ -64,7 +64,7 @@ export class AddUser extends Component {
 						/>
 					</Form.Group>
 					<Button variant="dark" type="submit">
-						Submit
+						Add
 					</Button>
 				</Form>
 			</div>

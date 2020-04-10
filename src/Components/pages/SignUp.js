@@ -4,6 +4,8 @@ import firebase from "firebase/app";
 import { firestoreConnect } from "react-redux-firebase";
 import history from "../../helpers/history";
 import "firebase/auth";
+import { compose } from "redux";
+import { connect } from "react-redux";
 
 export class SignUp extends Component {
 	state = {
@@ -27,7 +29,7 @@ export class SignUp extends Component {
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(this.state.email, this.state.password)
-			.then(() => {
+			.then((response) => {
 				const client = {
 					firstName: this.state.firstName,
 					lastName: this.state.lastName,
@@ -36,11 +38,14 @@ export class SignUp extends Component {
 				};
 				const { firestore } = this.props;
 				firestore.add({ collection: "clients" }, client);
+				this.props.dispatchSignin("SIGNIN_SUCCESS", response);
 				history.push("/home");
 			})
-			.catch(function (error) {
+			.catch((error) => {
 				let errorCode = error.code;
 				let errorMessage = error.message;
+				this.props.dispatchSignin("SIGNIN_FAILURE", errorMessage);
+
 				if (errorCode === "auth/wrong-password") {
 					alert("Wrong password.");
 				} else {
@@ -87,6 +92,7 @@ export class SignUp extends Component {
 	signUpWithGoogle = () => {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+		firebase.auth().useDeviceLanguage();
 	};
 	render() {
 		const { errors } = this.state;
@@ -156,7 +162,7 @@ export class SignUp extends Component {
 					</Form.Group>
 
 					<Button variant="dark" type="submit">
-						Submit
+						Sign Up
 					</Button>
 					<br />
 					<Button variant="info" onClick={this.signUpWithGoogle}>
@@ -171,4 +177,16 @@ export class SignUp extends Component {
 	}
 }
 
-export default firestoreConnect()(SignUp);
+export default compose(
+	firestoreConnect(),
+	connect(
+		(state) => ({
+			isSignedIn: state.mainstore.isSignedIn,
+		}),
+		{
+			dispatchSignin: (type, data) => (dispatch) => {
+				dispatch({ type, data });
+			},
+		}
+	)
+)(SignUp);

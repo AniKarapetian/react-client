@@ -61,3 +61,17 @@ p {
 button{
 	margin: 5px;
 }
+.link{
+	background-color:lightgray;
+	color: black;
+	padding: 14px 25px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+}
+.link:hover{
+	background-color: gray;
+	text-decoration: none;
+	color: black;
+
+}
