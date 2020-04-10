@@ -12,12 +12,12 @@ import AddUser from "./pages/AddUser";
 import NotFoundPage from "./pages/NotFoundPage";
 import LogOut from "./pages/LogOut";
 
-const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => {
+const PrivateRoute = ({ component: Component, isSignedIn, ...rest }) => {
 	return (
 		<Route
 			{...rest}
 			render={(props) =>
-				isLoggedIn ? (
+				isSignedIn ? (
 					<Component {...props} />
 				) : (
 					<Redirect
@@ -29,12 +29,12 @@ const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => {
 	);
 };
 
-const PublicRoute = ({ component: Component, isLoggedIn, ...rest }) => {
+const PublicRoute = ({ component: Component, isSignedIn, ...rest }) => {
 	return (
 		<Route
 			{...rest}
 			render={(props) =>
-				!isLoggedIn ? (
+				!isSignedIn ? (
 					<Component {...props} />
 				) : (
 					<Redirect
