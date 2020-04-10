@@ -3,8 +3,23 @@ import { Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import home_logo from "../Images/home_logo.png";
 import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import firebase from "firebase/app";
 
 class Menu extends Component {
+	logOut = () => {
+		this.props.dispatchSignin("SIGNOUT_SUCCESS");
+		firebase
+			.auth()
+			.signOut()
+			.then(function () {
+				// Sign-out successful.
+			})
+			.catch(function (error) {
+				// An error happened.
+			});
+	};
 	render() {
 		// var user = firebase.auth().currentUser;
 		const { isSignedIn } = this.props;
@@ -22,7 +37,7 @@ class Menu extends Component {
 								<NavLink className="nav-link" to="/add-user">
 									Add User
 								</NavLink>
-								<NavLink className="nav-link" to="/log-out">
+								<NavLink className="nav-link" to="/home" onClick={this.logOut}>
 									Log Out
 								</NavLink>
 							</>
@@ -44,6 +59,16 @@ class Menu extends Component {
 	}
 }
 
-export default connect((state) => ({
-	isSignedIn: state.mainstore.isSignedIn,
-}))(Menu);
+export default compose(
+	firestoreConnect(),
+	connect(
+		(state) => ({
+			isSignedIn: state.mainstore.isSignedIn,
+		}),
+		{
+			dispatchSignin: (type, data) => (dispatch) => {
+				dispatch({ type, data });
+			},
+		}
+	)
+)(Menu);

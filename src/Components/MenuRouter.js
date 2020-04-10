@@ -10,7 +10,6 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import AddUser from "./pages/AddUser";
 import NotFoundPage from "./pages/NotFoundPage";
-import LogOut from "./pages/LogOut";
 
 const PrivateRoute = ({ component: Component, isSignedIn, ...rest }) => {
 	return (
@@ -82,12 +81,6 @@ export class MenuRouter extends Component {
 							exact
 							path="/add-user"
 							component={AddUser}
-							isSignedIn={isSignedIn}
-						/>
-						<PrivateRoute
-							exact
-							path="/log-out"
-							component={LogOut}
 							isSignedIn={isSignedIn}
 						/>
 						<Route exact path="/404" component={NotFoundPage} />
