@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/react-client/static/css/main.0981ae59.chunk.css",
+    "main.js": "/react-client/static/js/main.ed986ddb.chunk.js",
+    "main.js.map": "/react-client/static/js/main.ed986ddb.chunk.js.map",
+    "runtime-main.js": "/react-client/static/js/runtime-main.3387bfbd.js",
+    "runtime-main.js.map": "/react-client/static/js/runtime-main.3387bfbd.js.map",
+    "static/css/2.de424728.chunk.css": "/react-client/static/css/2.de424728.chunk.css",
+    "static/js/2.36dc02ed.chunk.js": "/react-client/static/js/2.36dc02ed.chunk.js",
+    "static/js/2.36dc02ed.chunk.js.map": "/react-client/static/js/2.36dc02ed.chunk.js.map",
+    "index.html": "/react-client/index.html",
+    "precache-manifest.5766a542f9db1734ff49f58f7dd3d9a6.js": "/react-client/precache-manifest.5766a542f9db1734ff49f58f7dd3d9a6.js",
+    "service-worker.js": "/react-client/service-worker.js",
+    "static/css/2.de424728.chunk.css.map": "/react-client/static/css/2.de424728.chunk.css.map",
+    "static/css/main.0981ae59.chunk.css.map": "/react-client/static/css/main.0981ae59.chunk.css.map",
+    "static/js/2.36dc02ed.chunk.js.LICENSE.txt": "/react-client/static/js/2.36dc02ed.chunk.js.LICENSE.txt",
+    "static/media/Preloader.gif": "/react-client/static/media/Preloader.d0ed0a5c.gif",
+    "static/media/delete_icon.png": "/react-client/static/media/delete_icon.4663dc9c.png",
+    "static/media/edit_icon.png": "/react-client/static/media/edit_icon.46eccaab.png",
+    "static/media/home_logo.png": "/react-client/static/media/home_logo.ba8c162b.png",
+    "static/media/info_icon.png": "/react-client/static/media/info_icon.6528a866.png",
+    "static/media/pageNotFound.jpg": "/react-client/static/media/pageNotFound.e4730676.jpg",
+    "static/media/user_photo.png": "/react-client/static/media/user_photo.864ff030.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3387bfbd.js",
+    "static/css/2.de424728.chunk.css",
+    "static/js/2.36dc02ed.chunk.js",
+    "static/css/main.0981ae59.chunk.css",
+    "static/js/main.ed986ddb.chunk.js"
+  ]
+}
