@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Clients from "../clients/Clients";
+import Clients from "../Clients/Clients";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { connect } from "react-redux";
